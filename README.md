@@ -10,7 +10,7 @@ This repository is a collection of various algorithms implemented in the Go prog
 - [x] Binary search
 
 ### Sorting
-- [ ] Bubble sort
+- [x] Bubble sort
 - [ ] Selection sort
 - [ ] Quicksort
 - [ ] Merge sort
