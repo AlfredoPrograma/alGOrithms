@@ -7,7 +7,7 @@ This repository is a collection of various algorithms implemented in the Go prog
 
 ## Algorithms list
 ### Searching
-- [ ] Binary search
+- [x] Binary search
 
 ### Sorting
 - [ ] Bubble sort
