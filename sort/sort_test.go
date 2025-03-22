@@ -3,6 +3,7 @@ package sort
 import (
 	"cmp"
 	"reflect"
+	"runtime"
 	"slices"
 	"testing"
 )
@@ -12,12 +13,15 @@ var UNSORTED_SLICE_WITH_REPETITIONS = []int{9, 9, 9, 4, 3, 2, 2, 7, 7, 3, 4}
 var EMPTY_SLICE = []int{}
 var SAME_VALUE_SLICE = []int{0, 0, 0}
 
-func copyAndSort[T cmp.Ordered, E ~[]T](elements E) E {
-	sorted := make(E, len(elements))
-	copy(sorted, elements)
-	slices.Sort(sorted)
+func copySlice[T cmp.Ordered, E ~[]T](elements E) E {
+	slice := make(E, len(elements))
+	copy(slice, elements)
 
-	return sorted
+	return slice
+}
+
+func getFunctionName(f any) string {
+	return runtime.FuncForPC(reflect.ValueOf(f).Pointer()).Name()
 }
 
 func TestSort(t *testing.T) {
@@ -25,7 +29,7 @@ func TestSort(t *testing.T) {
 		elements []int
 		name     string
 	}
-	sortingAlgorithms := []SortFn[int, []int]{BubbleSort[int, []int]}
+	sortingAlgorithms := []SortFn[int, []int]{SelectionSort[int, []int], BubbleSort[int, []int]}
 	cases := []testCase{
 		{UNSORTED_SLICE, "should sort unsorted slice"},
 		{UNSORTED_SLICE_WITH_REPETITIONS, "should sort an slice with repetitions"},
@@ -35,11 +39,14 @@ func TestSort(t *testing.T) {
 
 	for _, sortFn := range sortingAlgorithms {
 		for _, tc := range cases {
-			sorted := copyAndSort(tc.elements)
-			got := sortFn(tc.elements)
+			sorted := copySlice(tc.elements)
+			got := copySlice(tc.elements)
+
+			slices.Sort(sorted)
+			sortFn(got)
 
 			if !reflect.DeepEqual(sorted, got) {
-				t.Errorf("expected %v but got %v", sorted, got)
+				t.Errorf("[%s] expected %v but got %v", getFunctionName(sortFn), sorted, got)
 			}
 		}
 	}
