@@ -12,7 +12,7 @@ This repository is a collection of various algorithms implemented in the Go prog
 ### Sorting
 - [x] Bubble sort
 - [x] Selection sort
-- [ ] Quicksort
+- [x] Quicksort
 - [ ] Merge sort
 
 ### Graphs

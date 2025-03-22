@@ -29,7 +29,7 @@ func TestSort(t *testing.T) {
 		elements []int
 		name     string
 	}
-	sortingAlgorithms := []SortFn[int, []int]{SelectionSort[int, []int], BubbleSort[int, []int]}
+	sortingAlgorithms := []SortFn[int, []int]{SelectionSort[int, []int], BubbleSort[int, []int], Quicksort[int, []int]}
 	cases := []testCase{
 		{UNSORTED_SLICE, "should sort unsorted slice"},
 		{UNSORTED_SLICE_WITH_REPETITIONS, "should sort an slice with repetitions"},
@@ -43,7 +43,7 @@ func TestSort(t *testing.T) {
 			got := copySlice(tc.elements)
 
 			slices.Sort(sorted)
-			sortFn(got)
+			got = sortFn(got)
 
 			if !reflect.DeepEqual(sorted, got) {
 				t.Errorf("[%s] expected %v but got %v", getFunctionName(sortFn), sorted, got)

@@ -1,7 +1,10 @@
 // Package sort implements a set of utility functions for sorting collections of elements.
 package sort
 
-import "cmp"
+import (
+	"cmp"
+	"slices"
+)
 
 type SortFn[T cmp.Ordered, E ~[]T] func(elements E) E
 
@@ -53,4 +56,67 @@ func SelectionSort[T cmp.Ordered, E ~[]T](elements E) E {
 	}
 
 	return elements
+}
+
+// Quicksort performs a quick sort algorithm on a slice haystack.
+//
+// It returns the sorted slice in ascending order.
+//
+// Quicksort algorithm is based on divide an conquer paradigm, where the complete slice sorting is
+// divided into smaller sub-problems until reach base cases. Base cases for quicksort are:
+//
+// - Sub slice length is 1 or 0; in this case, just return the single/none element slice.
+//
+// - Sub slice length is 2; in this case, we can just compare elements and swap if needed in order to sort the slice.
+//
+// If sub slice length is 3 or greater, then recursively call quicksort.
+//
+// The sorts operates in O(nlogn) time complexity and O(nlogn) space complexity.
+//
+// The worst case really could be O(n^2) for both, time and space complexity; but this case is uncommon and only happens when,
+// the slice is already sorted and the selected pivot is always on some edge.
+func Quicksort[T cmp.Ordered, E ~[]T](elements E) E {
+	swap := func(e E) E {
+		v1 := e[0]
+		v2 := e[1]
+
+		if v1 > v2 {
+			tmp := v1
+			e[0] = v2
+			e[1] = tmp
+		}
+
+		return e
+	}
+
+	partition := func(e E, mid T) (smallests E, repeated E, greatests E) {
+		for _, elem := range e {
+			if elem == mid {
+				repeated = append(repeated, elem)
+			}
+
+			if elem > mid {
+				greatests = append(greatests, elem)
+			}
+
+			if elem < mid {
+				smallests = append(smallests, elem)
+			}
+		}
+
+		return smallests, repeated, greatests
+	}
+
+	if len(elements) <= 1 {
+		return elements
+	}
+
+	if len(elements) == 2 {
+		swap(elements)
+	}
+
+	mid := elements[len(elements)/2]
+	left, repeated, right := partition(elements, mid)
+
+	return slices.Concat(Quicksort(left), repeated, Quicksort(right))
 }
