@@ -20,7 +20,7 @@ This repository is a collection of various algorithms implemented in the Go prog
 - [ ] Dijkstra's
 
 ## Data structures list
-- [ ] Singly linked list
+- [x] Singly linked list
 - [ ] Doubly linked list
 - [ ] Queue
 - [ ] Stack
