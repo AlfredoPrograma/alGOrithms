@@ -16,7 +16,7 @@ This repository is a collection of various algorithms implemented in the Go prog
 - [ ] Merge sort
 
 ### Graphs
-- [ ] Breadth-First search
+- [x] Breadth-First search
 - [ ] Dijkstra's
 
 ## Data structures list
