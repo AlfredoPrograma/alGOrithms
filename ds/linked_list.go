@@ -148,6 +148,7 @@ func (l *SinglyLinkedList[T]) DeleteFromBeginning() T {
 
 	oldHead := l.head
 	l.head = oldHead.next
+	l.size--
 
 	return oldHead.value
 }
@@ -173,6 +174,7 @@ func (l *SinglyLinkedList[T]) DeleteFromEnd() T {
 	oldTail := l.tail
 	preLast.next = nil
 	l.tail = preLast
+	l.size--
 
 	return oldTail.value
 }
