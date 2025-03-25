@@ -29,7 +29,7 @@ func TestBFS(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		found := BFS(friends, tc.start, tc.target)
+		found := friends.BFS(tc.start, tc.target)
 
 		if tc.found != found {
 			t.Errorf("expected %v but got %v for return found value property", tc.found, found)
