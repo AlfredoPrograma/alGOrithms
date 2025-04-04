@@ -89,9 +89,7 @@ func (l *SinglyLinkedList[T]) InsertAtBeginning(value T) {
 	}
 
 	node := newNode(value)
-	head := l.head
-	node.next = head
-	l.head = &node
+	node.next, l.head = l.head, &node
 	l.size++
 }
 
@@ -103,9 +101,7 @@ func (l *SinglyLinkedList[T]) InsertAtEnd(value T) {
 	}
 
 	node := newNode(value)
-	oldTail := l.tail
-	oldTail.next = &node
-	l.tail = &node
+	l.tail.next, l.tail = &node, &node
 	l.size++
 }
 
@@ -130,9 +126,7 @@ func (l *SinglyLinkedList[T]) InsertAtPosition(value T, pos int) error {
 		}
 	}
 
-	next := prev.next
-	prev.next = &newNode
-	newNode.next = next
+	newNode.next, prev.next = prev.next, &newNode
 	return nil
 }
 
@@ -171,12 +165,12 @@ func (l *SinglyLinkedList[T]) DeleteFromEnd() T {
 		}
 	}
 
-	oldTail := l.tail
+	popped := l.tail.value
 	preLast.next = nil
 	l.tail = preLast
 	l.size--
 
-	return oldTail.value
+	return popped
 }
 
 // DeleteAtPosition removes the element at the provided position and returns its value. Also, reports whether provided position is invalid.
@@ -248,8 +242,7 @@ func (l *SinglyLinkedList[T]) IsEmpty() bool {
 func (l *SinglyLinkedList[T]) insertOnEmptyList(value T) {
 	node := newNode(value)
 
-	l.head = &node
-	l.tail = &node
+	l.head, l.tail = &node, &node
 	l.size++
 }
 
